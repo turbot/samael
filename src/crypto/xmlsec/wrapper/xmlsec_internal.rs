@@ -5,9 +5,9 @@ use crate::crypto::xmlsec::wrapper::bindings;
 
 use lazy_static::lazy_static;
 
+use super::XmlSecResult;
 use super::backend;
 use super::error::XmlSecError;
-use super::XmlSecResult;
 use std::convert::TryInto;
 use std::ptr::null;
 use std::sync::Mutex;

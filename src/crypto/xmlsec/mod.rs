@@ -182,7 +182,10 @@ impl super::CryptoProvider for XmlSec {
                 )?;
                 let key = XmlSecKey::from_memory(key_data.der_data(), XmlSecKeyFormat::CertDer)?;
                 sig_ctx.insert_key(key);
-                verified = sig_ctx.verify_node(sig_node)?;
+                // Use verify_document instead of verify_node to ensure
+                // xmlSecAddIDs is called (required for xmlsec 1.3.x).
+                // See: https://github.com/njaremko/samael/issues/82
+                verified = sig_ctx.verify_document(&xml, Some("ID"))?;
                 if verified {
                     verified_references = sig_ctx.get_verified_references()?;
                     break;
